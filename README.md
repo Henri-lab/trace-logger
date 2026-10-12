@@ -31,7 +31,7 @@
 | 结构化日志 | Go `log/slog`、zap、zerolog；JS pino | 字段与级别的**统一约定**，避免每个项目各起一套名字 |
 | 调用点定位（文件/函数/行） | zap `AddCaller`；slog `AddSource` | **逻辑模块名**推导（`payment` / `httpx`）+ 统一输出形态 |
 | 跨服务链路 | OpenTelemetry（`traceparent` + OTLP） | 过渡期的轻量做法 + "何时必须换 OTel"的判据 |
-| 前端错误与追踪 | Sentry / OTel Browser / Elastic RUM | 不引第三方时的最小回流契约（限流 + 失败即丢） |
+| 前端错误与追踪 | **Sentry / GlitchTip / OTel Browser**（**首选**，见 SPEC §6.1） | 不引第三方时的**降级**回流契约（限流 + 失败即丢） |
 | 业务可观测性 | — | 关键业务事件命名（`order.created` / `payment.unmatched`）与 actor/subject 规则 |
 
 一句话：**机制用成熟方案，约定由本仓库定义**。
@@ -57,4 +57,5 @@
 
 ## 状态
 
-- v0.1（草案）：字段字典、级别语义、链路规则、验收清单已定稿；实现待触发条件满足。
+- v0.2（草案）：字段字典、级别语义、链路规则、验收清单已定稿；新增"错误上报交给成熟产品"的分工（Sentry/GlitchTip）；
+  运行时代码仍待触发条件满足（ADR 0001）。
